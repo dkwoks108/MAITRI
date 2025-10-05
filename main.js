@@ -4,7 +4,7 @@ const stopBtn = document.getElementById('stop-btn');
 const emotionElem = document.getElementById('emotion');
 const messageElem = document.getElementById('message');
 
-const API_URL = 'https://example.ngrok.io/predict'; // Placeholder
+const API_URL = "https://abcd-1234-56-78-90.ngrok.io/predict"; // Replace with your ngrok URL
 
 let stream = null;
 let audioStream = null;
@@ -17,9 +17,11 @@ async function startWebcam() {
     try {
         stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         video.srcObject = stream;
+        await video.play();
     } catch (err) {
         emotionElem.textContent = '';
         messageElem.textContent = 'Could not access webcam. Please allow camera permissions.';
+        console.error(err);
     }
 }
 
@@ -59,7 +61,7 @@ function recordAudioSegment() {
                 if (mediaRecorder.state !== 'inactive') {
                     mediaRecorder.stop();
                 }
-            }, 5000);
+            }, 5000); // Record 5 seconds of audio
         } catch (err) {
             reject(err);
         }
@@ -69,14 +71,20 @@ function recordAudioSegment() {
 async function sendToAPI(imageBlob, audioBlob) {
     try {
         const formData = new FormData();
-        formData.append('image', imageBlob, 'frame.jpg');
-        formData.append('audio', audioBlob, 'audio.webm');
+        formData.append('frame', imageBlob, 'frame.jpg');  // Must match backend key
+        formData.append('voice', audioBlob, 'voice.webm'); // Must match backend key
 
-        const res = await fetch(API_URL, { method: 'POST', body: formData });
+        const res = await fetch(API_URL, { 
+            method: 'POST', 
+            body: formData,
+            mode: 'cors'
+        });
+
         if (!res.ok) throw new Error('API response error');
         const data = await res.json();
         displayResult(data);
     } catch (err) {
+        console.error(err);
         emotionElem.textContent = '';
         messageElem.textContent = 'Could not connect to backend. Please try again.';
     }
@@ -96,12 +104,12 @@ async function detectEmotion() {
     if (!isDetecting) return;
     try {
         const imageBlob = await captureFrame();
-        messageElem.textContent = "Listening...";
-        emotionElem.textContent = '';
+        messageElem.textContent = "Recording audio...";
         const audioBlob = await recordAudioSegment();
         messageElem.textContent = "Analyzing...";
         await sendToAPI(imageBlob, audioBlob);
     } catch (err) {
+        console.error(err);
         emotionElem.textContent = '';
         messageElem.textContent = 'Error during detection.';
     }
@@ -115,7 +123,7 @@ function startDetection() {
     emotionElem.textContent = '';
     messageElem.textContent = 'Starting detection...';
     detectEmotion();
-    detectionInterval = setInterval(detectEmotion, 5000);
+    detectionInterval = setInterval(detectEmotion, 10000); // Run every 10 sec
 }
 
 function stopDetection() {
