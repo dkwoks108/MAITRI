@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAITRI - Astronaut Emotion Detection</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="h-full flex items-center justify-center text-slate-200 antialiased">
@@ -48,6 +49,47 @@
                     <h3 class="text-lg sm:text-xl font-bold tech-font mb-2 text-indigo-300">ANALYSIS LOG</h3>
                     <p id="emotion" class="text-xl sm:text-2xl font-bold text-cyan-300 tech-font">AWAITING INPUT...</p>
                     <p id="message" class="text-base sm:text-lg text-slate-300 mt-2">System is offline.</p>
+                    <div id="alert-indicator" class="hidden mt-3 p-2 bg-red-600/20 border border-red-500 rounded text-red-300 text-sm">
+                        ⚠️ Alert Triggered: High stress detected
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat and Visualization Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mt-8">
+            <!-- Chat Interface -->
+            <div class="bg-gray-800/50 rounded-lg border border-gray-700 p-4 sm:p-6">
+                <h3 class="text-lg sm:text-xl font-bold tech-font mb-4 text-indigo-300">💬 CHAT WITH MAITRI</h3>
+                <div id="chat-container" class="flex flex-col h-96">
+                    <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 mb-4 pr-2">
+                        <div class="message bot-message p-3 bg-indigo-900/30 rounded-lg border border-indigo-700">
+                            <strong class="text-indigo-300">MAITRI:</strong>
+                            <p class="text-slate-200 mt-1">Hello! I'm MAITRI, your AI assistant. I'm here to support your well-being. How are you feeling today?</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <input 
+                            type="text" 
+                            id="chat-input" 
+                            placeholder="Type your message..."
+                            class="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-slate-200 placeholder-slate-400 focus:outline-none focus:border-indigo-500"
+                        />
+                        <button 
+                            id="chat-send" 
+                            class="glow-btn px-6 py-2 rounded-lg font-bold"
+                        >
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emotion History Chart -->
+            <div class="bg-gray-800/50 rounded-lg border border-gray-700 p-4 sm:p-6">
+                <h3 class="text-lg sm:text-xl font-bold tech-font mb-4 text-indigo-300">📊 EMOTION TRENDS</h3>
+                <div class="h-96 flex items-center justify-center">
+                    <canvas id="emotion-chart"></canvas>
                 </div>
             </div>
         </div>
