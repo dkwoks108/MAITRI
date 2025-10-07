@@ -15,7 +15,7 @@ Complete setup instructions for MAITRI - AI Assistant for Astronauts
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/MAITRI.git
+git clone https://github.com/dkwoks108/MAITRI.git
 cd MAITRI
 ```
 
