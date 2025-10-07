@@ -146,9 +146,238 @@ MAITRI Avatar: glowing AI sphere or astronaut icon
 
 🧰 Tech Stack Summary
 Layer	Tool
-Frontend	Next.js + Tailwind CSS + MediaPipe
+Frontend	HTML5 + Tailwind CSS + Chart.js
 Backend	FastAPI (Python)
-AI Models	SpeechBrain, FER, DialoGPT
-Storage	Google Drive API (free)
-Visualization	Chart.js / Plotly
-Hosting (optional)	Vercel (frontend), Render/Google Colab (backend)
+AI Models	FER, DialoGPT (Transformers)
+Storage	Google Drive API (free) + Local fallback
+Visualization	Chart.js
+Hosting (optional)	Vercel (frontend), Render/Railway (backend)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.10 or higher
+- Modern web browser with webcam and microphone
+- Internet connection (for model downloads)
+
+### Installation
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/dkwoks108/MAITRI.git
+cd MAITRI
+```
+
+2. **Start the backend:**
+```bash
+# Linux/macOS
+./start_backend.sh
+
+# Windows
+start_backend.bat
+
+# Manual start
+cd backend
+pip install -r requirements.txt
+python main.py
+```
+
+3. **Open the frontend:**
+```bash
+# Open index.html in your browser or use Python server
+python -m http.server 3000
+# Then open http://localhost:3000
+```
+
+### First Run
+- Backend will download AI models (~500MB) on first run
+- Allow camera and microphone permissions in browser
+- Click "Start Detection" to begin emotion analysis
+- Use chat interface to interact with MAITRI
+
+## 📚 Documentation
+
+- **[SETUP.md](SETUP.md)** - Complete setup instructions
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Deployment guide
+- **[EXAMPLES.md](EXAMPLES.md)** - Usage examples and code samples
+- **[backend/README.md](backend/README.md)** - Backend API documentation
+
+## 🎯 Features Implemented
+
+### ✅ Backend (FastAPI)
+- ✅ Emotion detection from video (FER)
+- ✅ Audio emotion analysis
+- ✅ Emotion fusion algorithm
+- ✅ AI chatbot with empathetic responses (DialoGPT)
+- ✅ Google Drive integration with local fallback
+- ✅ Alert system for stress/fatigue detection
+- ✅ RESTful API with CORS support
+- ✅ Session logging and data persistence
+
+### ✅ Frontend
+- ✅ Space-themed responsive UI
+- ✅ Real-time webcam and audio capture
+- ✅ Live emotion detection display
+- ✅ Interactive chat interface
+- ✅ Emotion trend visualization (Chart.js)
+- ✅ Alert notifications
+- ✅ Session auto-save
+
+### ✅ Storage & Alerts
+- ✅ Google Drive API integration
+- ✅ Local file storage fallback
+- ✅ JSON session logs
+- ✅ Alert report generation (JSON + TXT)
+- ✅ Session history retrieval
+
+## 📁 Project Structure
+
+```
+MAITRI/
+├── backend/
+│   ├── main.py              # FastAPI server & endpoints
+│   ├── emotion_analyzer.py  # Video/audio emotion detection
+│   ├── chatbot.py          # AI chatbot with empathetic responses
+│   ├── storage.py          # Google Drive integration
+│   ├── alert_system.py     # Alert detection & management
+│   ├── requirements.txt    # Python dependencies
+│   ├── .env.example       # Environment configuration
+│   ├── test_backend.py    # Backend tests
+│   └── README.md          # Backend documentation
+├── index.html             # Main frontend page
+├── main.js               # Frontend JavaScript
+├── style.css             # Custom styles
+├── start_backend.sh      # Linux/macOS startup script
+├── start_backend.bat     # Windows startup script
+├── README.md             # This file
+├── SETUP.md              # Setup instructions
+├── DEPLOYMENT.md         # Deployment guide
+├── EXAMPLES.md           # Usage examples
+└── .gitignore           # Git ignore rules
+```
+
+## 🔌 API Endpoints
+
+### GET /
+Health check endpoint
+
+### POST /analyze
+Analyze emotion from video frame and audio
+- **Input**: `frame` (image), `voice` (audio)
+- **Output**: Emotion analysis with confidence scores
+
+### POST /chat
+Chat with MAITRI AI assistant
+- **Input**: `message`, `emotion_state`, `user_id`
+- **Output**: AI-generated empathetic response
+
+### POST /save
+Save session data to storage
+- **Input**: `session_data`, `user_id`
+- **Output**: Success confirmation with file ID
+
+### GET /history/{user_id}
+Retrieve session history
+- **Input**: `user_id`, `limit` (optional)
+- **Output**: List of recent sessions
+
+See [backend/README.md](backend/README.md) for detailed API documentation.
+
+## 🎨 UI Preview
+
+The application features:
+- **Dark space-themed gradient** background (#0b0d17 → #1b1f3a)
+- **Futuristic fonts** (Orbitron, Share Tech Mono)
+- **Glowing elements** and smooth animations
+- **Responsive design** for desktop and tablet
+- **Real-time emotion display** with emojis
+- **Interactive chat** with MAITRI AI
+- **Live emotion trend chart**
+
+## 🔧 Configuration
+
+### Backend Configuration
+
+Create `backend/.env`:
+```bash
+HOST=0.0.0.0
+PORT=8000
+GOOGLE_CREDENTIALS_PATH=credentials.json
+USE_GPU=false
+LOG_LEVEL=INFO
+```
+
+### Google Drive Setup (Optional)
+
+1. Create Google Cloud project
+2. Enable Google Drive API
+3. Create service account
+4. Download credentials as `backend/credentials.json`
+5. Share "MAITRI_Data" folder with service account
+
+If not configured, data saves locally to `backend/data/`
+
+## 🧪 Testing
+
+### Test Backend
+```bash
+cd backend
+python test_backend.py
+```
+
+### Test API
+```bash
+# Health check
+curl http://localhost:8000/
+
+# Chat test
+curl -X POST http://localhost:8000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello", "emotion_state": "neutral"}'
+```
+
+## 🚢 Deployment
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment instructions.
+
+### Quick Deploy Options
+
+**Frontend:**
+- Vercel (recommended)
+- Netlify
+- GitHub Pages
+
+**Backend:**
+- Render (recommended)
+- Railway
+- Google Cloud Run
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
+
+## 📝 License
+
+MIT License - See LICENSE file for details
+
+## 🙏 Acknowledgments
+
+- **FER** - Facial emotion recognition
+- **Transformers** - DialoGPT conversational AI
+- **FastAPI** - Modern Python web framework
+- **Tailwind CSS** - Utility-first CSS framework
+- **Chart.js** - Interactive charts
+
+## 📧 Support
+
+- Open an issue on GitHub
+- Check [SETUP.md](SETUP.md) for troubleshooting
+- Review [EXAMPLES.md](EXAMPLES.md) for usage examples
+
+---
+
+**Built for the future of astronaut well-being monitoring** 🚀✨
